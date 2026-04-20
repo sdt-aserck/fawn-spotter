@@ -1,0 +1,160 @@
+.timeslots-bg {
+  min-height: 100vh;
+  background-color: #ede0f5;
+  background-image: none;
+}
+
+/* ── Collapsible (purple tint) ── */
+.timeslots-bg .collapsible {
+  border-color: #a870c8;
+  background-color: #ddc8f0;
+}
+
+.timeslots-bg .collapsible-summary {
+  background-color: #d0b0e8;
+  border-bottom-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .collapsible-body {
+  background-color: #ddc8f0;
+}
+
+/* ── Form inputs ── */
+.timeslots-bg .form-input {
+  border-color: #a870c8;
+  background-color: #f5eeff;
+  color: #2a1040;
+}
+
+.timeslots-bg .form-label {
+  color: #3a1858;
+  width: 160px;
+}
+
+/* ── Buttons ── */
+.timeslots-bg .btn--primary {
+  background-color: #d0b0e8;
+  border-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .btn--sort {
+  background-color: #ddc8f0;
+  border-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .btn--sort-active {
+  background-color: #a870c8;
+  color: #fff;
+  border-style: inset;
+}
+
+.timeslots-bg .btn--edit {
+  background-color: #d0b0e8;
+  border-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .btn--cancel {
+  background-color: #e0d0f0;
+  border-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .btn--small {
+  background-color: #d0b0e8;
+  border-color: #a870c8;
+  color: #2a1040;
+}
+
+.timeslots-bg .tag-empty {
+  color: #7a50a0;
+}
+
+.timeslots-bg .sort-label {
+  color: #3a1858;
+}
+
+.timeslots-bg .staff-row {
+  border-bottom-color: #c0a0d8;
+}
+
+.timeslots-bg .staff-name {
+  color: #2a1040;
+}
+
+.timeslots-bg .modal-box {
+  background-color: #ede0f5;
+}
+
+/* ── Timeslot-specific ── */
+.ts-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row--top {
+  align-items: flex-start;
+}
+
+.form-row--top .form-label {
+  padding-top: 4px;
+}
+
+.ts-activity-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.timeslots-bg .cabin-pill {
+  border-color: #a870c8;
+  background-color: #ddc8f0;
+  color: #2a1040;
+}
+
+.ts-time {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #6a40a0;
+  margin-right: 8px;
+}
+
+.ts-activity-summary {
+  flex: 1;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.ts-badge {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  padding: 1px 7px;
+  border: 1px solid #a870c8;
+  background-color: #e8d4f8;
+  color: #4a1878;
+  border-radius: 3px;
+}
+
+.ts-badge--required {
+  background-color: #d4b0f0;
+  border-color: #8840b0;
+  color: #2a1040;
+}
+
+.ts-count {
+  font-size: 16px;
+  font-weight: normal;
+  color: #7a50a0;
+}
+
+/* ── Activity selection modal theme override ── */
+.timeslots-bg .activity-selection-item:hover,
+.modal-overlay .activity-selection-item:hover {
+  background-color: #f0e8ff;
+}
