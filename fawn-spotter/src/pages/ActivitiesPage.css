@@ -1,0 +1,129 @@
+.activities-bg {
+  min-height: 100vh;
+  background-color: #cce0f5;
+  background-image: none;
+}
+
+/* ── Collapsible (blue tint) ── */
+.activities-bg .collapsible {
+  border-color: #7aaac8;
+  background-color: #bdd5ea;
+}
+
+.activities-bg .collapsible-summary {
+  background-color: #a8c8e0;
+  border-bottom-color: #7aaac8;
+  color: #1a2e40;
+}
+
+.activities-bg .collapsible-body {
+  background-color: #bdd5ea;
+}
+
+/* ── Form inputs (blue tint) ── */
+.activities-bg .form-input {
+  border-color: #7aaac8;
+  background-color: #eaf3fb;
+  color: #1a2e40;
+}
+
+.activities-bg .form-label {
+  color: #1a3a50;
+  width: 160px;
+}
+
+/* ── Buttons (blue tint) ── */
+.activities-bg .btn--primary {
+  background-color: #a8c8e0;
+  border-color: #7aaac8;
+  color: #1a2e40;
+}
+
+.activities-bg .btn--sort {
+  background-color: #c0d8ee;
+  border-color: #7aaac8;
+  color: #1a2e40;
+}
+
+.activities-bg .btn--sort-active {
+  background-color: #6aace8;
+  color: #fff;
+}
+
+.activities-bg .btn--edit {
+  background-color: #a8c8e0;
+  border-color: #7aaac8;
+  color: #1a2e40;
+}
+
+.activities-bg .btn--cancel {
+  background-color: #c8d8e8;
+  border-color: #7aaac8;
+  color: #1a2e40;
+}
+
+.activities-bg .tag-empty {
+  color: #5a7a9a;
+}
+
+.activities-bg .sort-label {
+  color: #1a3a50;
+}
+
+.activities-bg .staff-row {
+  border-bottom-color: #a0c0d8;
+}
+
+.activities-bg .staff-name {
+  color: #1a2e40;
+}
+
+/* ── Activity-specific ── */
+.activity-ratio {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #3a5a7a;
+  margin-right: 8px;
+}
+
+.activity-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.special-ratio-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.special-ratio-controls .sort-bar {
+  margin-bottom: 0;
+}
+
+.special-ratio-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-input--short {
+  flex: 0 0 auto;
+  width: 100px;
+}
+
+.btn--small {
+  font-size: 15px;
+  padding: 2px 10px;
+  background-color: #a8c8e0;
+  border-color: #7aaac8;
+  color: #1a2e40;
+}
+
+/* ── Modal (blue tint) ── */
+.activities-bg .modal-box,
+.modal-overlay .modal-box {
+  background-color: #cce0f5;
+}

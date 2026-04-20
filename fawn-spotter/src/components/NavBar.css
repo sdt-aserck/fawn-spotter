@@ -1,0 +1,29 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background-color: #1e2e1e;
+  border-bottom: 3px outset #5a7a54;
+  padding: 6px 12px;
+}
+
+.navbar-link {
+  color: #c8b87a;
+  text-decoration: none;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  padding: 4px 12px;
+  border-right: 1px solid #3d5c3a;
+}
+
+.navbar-link:last-child {
+  border-right: none;
+}
+
+.navbar-link:hover {
+  color: #e0d09a;
+  background-color: #263626;
+}

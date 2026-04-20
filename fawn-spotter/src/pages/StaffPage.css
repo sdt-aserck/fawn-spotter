@@ -1,0 +1,277 @@
+.staff-bg {
+  min-height: 100vh;
+  background-color: #d4e8d0;
+  background-image: none;
+}
+
+/* ── Collapsible ── */
+.collapsible {
+  border: 2px outset #7aa87a;
+  background-color: #c2dbbe;
+  margin-bottom: 16px;
+}
+
+.collapsible-summary {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 22px;
+  color: #2c4a2c;
+  user-select: none;
+  background-color: #b0d0ac;
+  border-bottom: 1px solid #7aa87a;
+  list-style: none;
+}
+
+.collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible[open] .collapsible-summary::before {
+  content: "▼ ";
+  font-size: 14px;
+}
+
+.collapsible:not([open]) .collapsible-summary::before {
+  content: "▶ ";
+  font-size: 14px;
+}
+
+.collapsible-body {
+  padding: 12px;
+}
+
+/* ── Tag create ── */
+.tag-create {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tag-input {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  padding: 4px 8px;
+  border: 2px inset #7aa87a;
+  background-color: #eaf4e8;
+  color: #1a2e1a;
+  flex: 1;
+}
+
+.tag-add-btn {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  padding: 4px 14px;
+  border: 2px outset #7aa87a;
+  background-color: #b0d0ac;
+  color: #1a2e1a;
+  cursor: pointer;
+}
+
+.tag-add-btn:active {
+  border-style: inset;
+}
+
+/* ── Tag list ── */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  padding: 2px 8px;
+  border: 1px solid #5a8a5a;
+  background-color: #eaf4e8;
+  color: #1a2e1a;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tag-chip--selected {
+  background-color: #7aa87a;
+  color: #fff;
+  border-color: #3a6a3a;
+}
+
+.tag-empty {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #6a8a64;
+  font-style: italic;
+}
+
+/* ── Staff Form ── */
+.staff-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.form-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #2c4a2c;
+  width: 70px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.form-input {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  padding: 4px 8px;
+  border: 2px inset #7aa87a;
+  background-color: #eaf4e8;
+  color: #1a2e1a;
+  flex: 1;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  padding: 4px 16px;
+  border: 2px outset #7aa87a;
+  cursor: pointer;
+}
+
+.btn:active {
+  border-style: inset;
+}
+
+.btn--primary {
+  background-color: #b0d0ac;
+  color: #1a2e1a;
+}
+
+.btn--primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.btn--danger {
+  background-color: #d4a0a0;
+  border-color: #a07070;
+  color: #3a1a1a;
+}
+
+.btn--edit {
+  background-color: #b0d0ac;
+  color: #1a2e1a;
+  padding: 2px 10px;
+  font-size: 15px;
+}
+
+.btn--cancel {
+  background-color: #c8c8b8;
+  border-color: #888878;
+  color: #2a2a1a;
+}
+
+/* ── Sort Bar ── */
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.sort-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  color: #2c4a2c;
+}
+
+.btn--sort {
+  background-color: #c8dcc4;
+  color: #1a2e1a;
+  padding: 2px 10px;
+  font-size: 16px;
+}
+
+.btn--sort-active {
+  background-color: #7aa87a;
+  color: #fff;
+  border-style: inset;
+}
+
+/* ── Staff List ── */
+.staff-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-bottom: 1px solid #a0c0a0;
+}
+
+.staff-row:last-child {
+  border-bottom: none;
+}
+
+.staff-village-icon {
+  font-size: 22px;
+  width: 32px;
+  text-align: center;
+}
+
+.staff-name {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  color: #1a2e1a;
+  flex: 1;
+}
+
+/* ── Edit Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal-box {
+  background-color: #d4e8d0;
+  border: 3px outset #7aa87a;
+  padding: 24px;
+  width: min(560px, 90vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 26px;
+  color: #2c4a2c;
+  margin: 0;
+}
+
+.modal-cancel {
+  align-self: flex-start;
+}

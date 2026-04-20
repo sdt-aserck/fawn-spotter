@@ -1,0 +1,417 @@
+.shared-experience-bg {
+  min-height: 100vh;
+  background-color: #fdf5c0;
+  background-image: none;
+}
+
+/* ── Collapsible (yellow tint) ── */
+.shared-experience-bg .collapsible {
+  border-color: #c8a820;
+  background-color: #f5e880;
+}
+
+.shared-experience-bg .collapsible-summary {
+  background-color: #ede070;
+  border-bottom-color: #c8a820;
+  color: #3a2e00;
+}
+
+.shared-experience-bg .collapsible-body {
+  background-color: #f5e880;
+}
+
+.shared-experience-bg .form-input {
+  border-color: #c8a820;
+  background-color: #fefce8;
+  color: #3a2e00;
+}
+
+.shared-experience-bg .tag-empty {
+  color: #8a7a20;
+}
+
+/* ── Upload box ── */
+.upload-box {
+  border: 2px dashed #c8a820;
+  background-color: #fefce8;
+  padding: 32px 16px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.1s;
+}
+
+.upload-box:hover,
+.upload-box--over {
+  background-color: #fdf0a0;
+  border-color: #a07800;
+}
+
+.upload-box-text {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  color: #3a2e00;
+}
+
+.upload-box-hint {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #8a7a30;
+  font-style: italic;
+}
+
+.upload-input-hidden {
+  display: none;
+}
+
+.upload-result-note {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #3a6a10;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.upload-result-note--warn {
+  color: #8a4a00;
+}
+
+/* ── Sort bar ── */
+.shared-experience-bg .sort-bar {
+  margin-bottom: 10px;
+}
+
+.shared-experience-bg .sort-label {
+  color: #3a2e00;
+}
+
+.shared-experience-bg .btn--sort {
+  background-color: #f0dc60;
+  border-color: #c8a820;
+  color: #3a2e00;
+}
+
+.shared-experience-bg .btn--sort-active {
+  background-color: #c8a820;
+  color: #fff;
+  border-style: inset;
+}
+
+/* ── Camper list ── */
+.camper-count {
+  font-size: 16px;
+  font-weight: normal;
+  color: #6a5a10;
+}
+
+.camper-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 4px;
+  border-bottom: 1px solid #e0cc70;
+}
+
+.camper-row:last-child {
+  border-bottom: none;
+}
+
+.camper-row--header {
+  font-style: italic;
+  color: #6a5a10;
+  border-bottom: 2px solid #c8a820;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.camper-col {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  color: #3a2e00;
+}
+
+.camper-facility {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.camper-name {
+  flex: 1;
+}
+
+.camper-preferred {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.camper-cit {
+  width: 50px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.cit-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #c8a820;
+}
+
+/* ── Cabin list ── */
+.cabin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+  border-bottom: 1px solid #e0cc70;
+}
+
+.cabin-row:last-child {
+  border-bottom: none;
+}
+
+.cabin-name {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #3a2e00;
+}
+
+/* ── Shared Experience Selection ── */
+.se-activity-collapsible {
+  margin-bottom: 12px;
+}
+
+.se-activity-header-row {
+  display: flex;
+  gap: 8px;
+  padding: 2px 4px 4px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #6a5a10;
+}
+
+.se-activity-col-label {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.se-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 4px;
+  border-bottom: 1px solid #e0cc70;
+}
+
+.se-activity-row:last-child {
+  border-bottom: none;
+}
+
+.se-activity-input {
+  width: 160px;
+  font-size: 16px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+.se-activity-remove {
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+.se-add-row {
+  margin-bottom: 12px;
+}
+
+.shared-experience-bg .btn--primary {
+  background-color: #ede070;
+  border-color: #c8a820;
+  color: #3a2e00;
+}
+
+.se-item {
+  border: 2px outset #c8a820;
+  background-color: #fefce8;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.se-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.se-group-label {
+  flex: 1;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #3a2e00;
+}
+
+.se-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.se-slot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.se-slot-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #6a5a10;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.se-slot-select {
+  flex: 1;
+}
+
+.se-cabins-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.se-cabins-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #6a5a10;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+
+.se-cabins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.cabin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  padding: 2px 6px;
+  border: 1px solid #c8a820;
+  background-color: #f5e880;
+  color: #3a2e00;
+}
+
+.cabin-pill-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #8a6a00;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.cabin-pill-remove:hover {
+  color: #c00;
+}
+
+.se-add-cabin {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  padding: 2px 6px;
+  border: 1px solid #c8a820;
+  background-color: #fefce8;
+  color: #3a2e00;
+  cursor: pointer;
+}
+
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.celebration-modal {
+  text-align: center;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: #fefce8;
+}
+
+.celebration-header {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 32px;
+  font-weight: bold;
+  color: #3a2e00;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.celebration-body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 22px;
+  color: #6a5a10;
+  margin: 0;
+  font-style: italic;
+}
+
+.generate-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn--generate {
+  font-size: 18px;
+  padding: 8px 24px;
+}
+
+.generate-help {
+  margin: 0;
+  padding-left: 20px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #8a7a20;
+  font-style: italic;
+}
+
+.generate-help li {
+  margin-bottom: 2px;
+}
+
+.se-total-campers {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #6a5a10;
+  font-style: italic;
+}
+
+/* ── Cabin list ── */
+.cabin-count {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #6a5a10;
+  font-style: italic;
+}
