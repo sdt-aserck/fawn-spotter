@@ -29,7 +29,7 @@
   border-bottom: 1px solid #e8e8e8;
   padding: 8px 12px;
   cursor: pointer;
-  color: inherit;
+  color: #1a0a10;
 }
 
 .activity-selection-item:last-child {
@@ -38,6 +38,12 @@
 
 .activity-selection-item:hover {
   background-color: #f0e8ff;
+}
+
+.activity-selection-divider {
+  height: 1px;
+  background-color: #b0b0b0;
+  margin: 4px 0;
 }
 
 .activity-selection-empty {

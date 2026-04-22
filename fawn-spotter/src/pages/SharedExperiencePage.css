@@ -258,9 +258,28 @@
 }
 
 .se-slots {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.se-slot-header-row {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  padding: 0 4px 2px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #6a5a10;
+}
+
+.se-slot-header-cell {
+  flex: 1;
+}
+
+.se-slot-header-cell.se-slot-header-label {
+  flex: 0 0 86px;
 }
 
 .se-slot-row {
@@ -273,12 +292,18 @@
   font-family: "Times New Roman", Times, serif;
   font-size: 16px;
   color: #6a5a10;
-  width: 70px;
+  width: 86px;
   flex-shrink: 0;
 }
 
 .se-slot-select {
   flex: 1;
+}
+
+.se-slot-leader {
+  flex: 1;
+  font-size: 15px;
+  padding: 2px 6px;
 }
 
 .se-cabins-section {

@@ -7,18 +7,21 @@ export interface SpecialRatioEntry {
 export class ActivityType {
   id: string;
   name: string;
-  councilorRatio: number;
+  counselorRatio: number;
   specialRatio: SpecialRatioEntry | null;
+  allCampersIncluded: boolean;
 
   constructor(
     id: string,
     name: string,
-    councilorRatio: number,
-    specialRatio: SpecialRatioEntry | null = null
+    counselorRatio: number,
+    specialRatio: SpecialRatioEntry | null = null,
+    allCampersIncluded: boolean = false
   ) {
     this.id = id;
     this.name = name;
-    this.councilorRatio = councilorRatio;
+    this.counselorRatio = counselorRatio;
     this.specialRatio = specialRatio;
+    this.allCampersIncluded = allCampersIncluded;
   }
 }

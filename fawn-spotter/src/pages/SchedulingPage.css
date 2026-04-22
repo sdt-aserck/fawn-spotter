@@ -1,0 +1,186 @@
+.scheduling-bg {
+  min-height: 100vh;
+  background-color: #f5e4c8;
+  background-image: none;
+}
+
+/* ── Collapsible (orange tint) ── */
+.scheduling-bg .collapsible {
+  border-color: #c87820;
+  background-color: #f0d0a0;
+}
+
+.scheduling-bg .collapsible-summary {
+  background-color: #e8c07a;
+  border-bottom-color: #c87820;
+  color: #3a1e00;
+}
+
+.scheduling-bg .collapsible-body {
+  background-color: #f0d0a0;
+}
+
+/* ── Form ── */
+.scheduling-bg .form-input {
+  border-color: #c87820;
+  background-color: #fdf4e4;
+  color: #3a1e00;
+}
+
+.scheduling-bg .form-label {
+  color: #4a2800;
+  width: 120px;
+}
+
+/* ── Buttons ── */
+.scheduling-bg .btn--primary {
+  background-color: #e8c07a;
+  border-color: #c87820;
+  color: #3a1e00;
+}
+
+.scheduling-bg .btn--danger {
+  background-color: #f0b8a0;
+  border-color: #c04820;
+  color: #3a0a00;
+}
+
+.scheduling-bg .btn--sort {
+  background-color: #f0d0a0;
+  border-color: #c87820;
+  color: #3a1e00;
+}
+
+.scheduling-bg .btn--sort-active {
+  background-color: #c87820;
+  color: #fff;
+  border-style: inset;
+}
+
+.scheduling-bg .sort-label {
+  color: #4a2800;
+}
+
+.scheduling-bg .tag-empty {
+  color: #a06020;
+}
+
+/* ── Date input ── */
+.sched-date-input {
+  flex: 0 0 auto;
+  width: 190px;
+}
+
+/* ── Week cards ── */
+.sched-week-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background-color: #fdf4e4;
+  border: 2px outset #c87820;
+}
+
+.sched-week-card:last-child {
+  margin-bottom: 0;
+}
+
+.sched-week-link {
+  flex: 1;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: #7a3a00;
+  text-decoration: underline;
+}
+
+.sched-week-link:hover {
+  color: #c87820;
+}
+
+.sched-date-range {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #7a5020;
+}
+
+.sched-count {
+  font-size: 16px;
+  font-weight: normal;
+  color: #a06020;
+}
+
+/* ── Schedule rows ── */
+.sched-schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #d8a870;
+}
+
+.sched-schedule-row:last-child {
+  border-bottom: none;
+}
+
+.sched-schedule-date {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  font-weight: bold;
+  color: #3a1e00;
+  min-width: 80px;
+}
+
+.sched-schedule-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sched-schedule-link:hover {
+  color: #c87820;
+}
+
+.sched-schedule-week {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #7a5020;
+  font-style: italic;
+}
+
+.sched-schedule-edit {
+  font-size: 13px;
+  padding: 2px 8px;
+  background-color: #f0d0a0;
+  border-color: #c87820;
+  color: #3a1e00;
+  margin-left: auto;
+}
+
+.sched-schedule-edit:hover {
+  background-color: #e8c07a;
+}
+
+.sched-week-card .btn--edit-week {
+  font-size: 14px;
+  padding: 3px 10px;
+  background-color: #f0d0a0;
+  border-color: #c87820;
+  color: #3a1e00;
+}
+
+.sched-week-card .btn--edit-week:hover {
+  background-color: #e8c07a;
+}
+
+.sched-week-card .btn--duplicate-week {
+  font-size: 14px;
+  padding: 3px 10px;
+  background-color: #f0d0a0;
+  border-color: #c87820;
+  color: #3a1e00;
+}
+
+.sched-week-card .btn--duplicate-week:hover {
+  background-color: #e8c07a;
+}

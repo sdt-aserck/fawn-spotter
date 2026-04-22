@@ -13,9 +13,9 @@ import {
   HeightRule,
 } from "docx";
 
-const FONT_SIZE = 24; // half-points, so 24 = 12pt
-const HEADER_FONT_SIZE = 26;
-const FOOTER_FONT_SIZE = 26;
+const FONT_SIZE = 34; // half-points, so 34 = 17pt
+const HEADER_FONT_SIZE = 36;
+const FOOTER_FONT_SIZE = 36;
 const ROW_HEIGHT = 400; // twips (~0.28 inches)
 
 interface Camper {
@@ -34,10 +34,6 @@ interface Cabin {
 interface SlotValue {
   day: string;
   activity: string;
-}
-
-interface Activity {
-  name: string;
   leader: string;
 }
 
@@ -77,12 +73,12 @@ function nameRuns(camper: Camper): TextRun[] {
   return runs;
 }
 
-function buildHeaderParagraph(se: SharedExperience, activities: Activity[]): Paragraph {
+function buildHeaderParagraph(se: SharedExperience): Paragraph {
   const abbrs = se.cabinNames.map(cabinAbbr).join(", ");
   const slotList = [se.slot1, se.slot2, se.slot3, se.slot4]
     .filter((s) => s.day && s.activity)
     .map((s) => {
-      const leader = activities.find((a) => a.name === s.activity)?.leader.trim();
+      const leader = s.leader.trim();
       return leader ? `${s.day}-${s.activity} (${leader})` : `${s.day}-${s.activity}`;
     });
 
@@ -186,7 +182,6 @@ function buildTotalParagraph(totalCampers: number): Paragraph {
 function buildGroupContent(
   se: SharedExperience,
   cabins: Cabin[],
-  activities: Activity[],
   isLast: boolean
 ): (Paragraph | Table)[] {
   const totalCampers = se.cabinNames.reduce(
@@ -195,7 +190,7 @@ function buildGroupContent(
   );
 
   const content: (Paragraph | Table)[] = [
-    buildHeaderParagraph(se, activities),
+    buildHeaderParagraph(se),
     buildCamperTable(se, cabins),
     buildFooterParagraph(),
     buildTotalParagraph(totalCampers),
@@ -210,11 +205,10 @@ function buildGroupContent(
 
 export async function generateDocument(
   sharedExperiences: SharedExperience[],
-  cabins: Cabin[],
-  activities: Activity[]
+  cabins: Cabin[]
 ): Promise<void> {
   const allContent = sharedExperiences.flatMap((se, i) =>
-    buildGroupContent(se, cabins, activities, i === sharedExperiences.length - 1)
+    buildGroupContent(se, cabins, i === sharedExperiences.length - 1)
   );
 
   const doc = new Document({

@@ -18,6 +18,7 @@
 
 .activities-bg .collapsible-body {
   background-color: #bdd5ea;
+  color: #1a2e40;
 }
 
 /* ── Form inputs (blue tint) ── */
@@ -126,4 +127,5 @@
 .activities-bg .modal-box,
 .modal-overlay .modal-box {
   background-color: #cce0f5;
+  color: #1a2e40;
 }

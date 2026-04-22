@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"^[^/]*src[^/]*\\\\.\\(tsx|ts|css|json\\)$|package\\\\.json|vite\\\\.config|index\\\\.html\")",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

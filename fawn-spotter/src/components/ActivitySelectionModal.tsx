@@ -5,11 +5,12 @@ import "./ActivitySelectionModal.css";
 interface ActivitySelectionModalProps {
   allActivities: ActivityType[];
   selectedIds: string[];
+  typicalActivityIds?: string[];
   onSelect: (id: string) => void;
   onClose: () => void;
 }
 
-function ActivitySelectionModal({ allActivities, selectedIds, onSelect, onClose }: ActivitySelectionModalProps) {
+function ActivitySelectionModal({ allActivities, selectedIds, typicalActivityIds, onSelect, onClose }: ActivitySelectionModalProps) {
   const [search, setSearch] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -20,6 +21,10 @@ function ActivitySelectionModal({ allActivities, selectedIds, onSelect, onClose 
   const available = allActivities.filter(
     (a) => !selectedIds.includes(a.id) && a.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const typicalSet = new Set(typicalActivityIds ?? []);
+  const typical = available.filter((a) => typicalSet.has(a.id));
+  const others = available.filter((a) => !typicalSet.has(a.id));
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -36,15 +41,23 @@ function ActivitySelectionModal({ allActivities, selectedIds, onSelect, onClose 
         <div className="activity-selection-list">
           {available.length === 0
             ? <span className="activity-selection-empty">No activities match.</span>
-            : available.map((a) => (
-                <button
-                  key={a.id}
-                  className="activity-selection-item"
-                  onClick={() => { onSelect(a.id); onClose(); }}
-                >
-                  {a.name}
-                </button>
-              ))
+            : (
+              <>
+                {typical.map((a) => (
+                  <button key={a.id} className="activity-selection-item" onClick={() => { onSelect(a.id); onClose(); }}>
+                    {a.name}
+                  </button>
+                ))}
+                {typical.length > 0 && others.length > 0 && (
+                  <div className="activity-selection-divider" />
+                )}
+                {others.map((a) => (
+                  <button key={a.id} className="activity-selection-item" onClick={() => { onSelect(a.id); onClose(); }}>
+                    {a.name}
+                  </button>
+                ))}
+              </>
+            )
           }
         </div>
         <button className="btn btn--cancel modal-cancel" onClick={onClose}>Cancel</button>

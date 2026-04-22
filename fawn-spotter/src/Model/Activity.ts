@@ -3,17 +3,25 @@ import type { TimeSlot } from "./TimeSlot";
 import { StaffMember } from "./StaffMember";
 
 export class Activity {
+  id: string;
   activityType: ActivityType;
   timeslot: TimeSlot;
   staffMembers: StaffMember[];
-  leader: StaffMember;
-  notes: string;
+  leader: StaffMember | null;
+  numCampers: number;
 
-  constructor(activityType: ActivityType, timeslot: TimeSlot, staffMembers: StaffMember[], leader: StaffMember, notes: string) {
+  constructor(
+    activityType: ActivityType,
+    timeslot: TimeSlot,
+    staffMembers: StaffMember[] = [],
+    leader: StaffMember | null = null,
+    numCampers: number = 0
+  ) {
+    this.id = crypto.randomUUID();
     this.activityType = activityType;
     this.timeslot = timeslot;
     this.staffMembers = staffMembers;
     this.leader = leader;
-    this.notes = notes;
+    this.numCampers = numCampers;
   }
 }

@@ -1,0 +1,251 @@
+.week-detail-bg {
+  min-height: 100vh;
+  background-color: #f5e4c8;
+  background-image: none;
+}
+
+.week-detail-back {
+  margin-bottom: 12px;
+}
+
+.week-detail-dates {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #7a5020;
+  margin: 4px 0 0;
+}
+
+.week-detail-bg .form-label {
+  color: #4a2800;
+  width: 140px;
+}
+
+.week-detail-bg .form-input {
+  border-color: #c87820;
+  background-color: #fdf4e4;
+  color: #3a1e00;
+}
+
+.sched-num-input {
+  flex: 0 0 auto;
+  width: 100px;
+}
+
+/* ── Excluded staff ── */
+.week-excluded-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.week-excluded-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.week-excluded-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #4a2800;
+  font-weight: bold;
+}
+
+.week-detail-bg .btn--small {
+  background-color: #e8c07a;
+  border-color: #c87820;
+  color: #3a1e00;
+  padding: 2px 10px;
+  font-size: 15px;
+}
+
+.week-excluded-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #d8a870;
+}
+
+.week-excluded-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #d8a870;
+  background-color: #fdf4e4;
+}
+
+.week-excluded-row:last-child {
+  border-bottom: none;
+}
+
+.week-excluded-name {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  color: #3a1e00;
+  flex: 1;
+}
+
+.week-schedule-link {
+  text-decoration: underline;
+  color: #3a1e00;
+}
+
+.week-schedule-link:hover {
+  color: #c87820;
+}
+
+.week-excluded-remove {
+  padding: 1px 8px;
+  font-size: 14px;
+}
+
+/* ── Staff picker modal ── */
+.week-staff-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 4px 0;
+}
+
+.week-staff-modal-item {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  padding: 6px 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #d8a870;
+  color: #3a1e00;
+  cursor: pointer;
+}
+
+.week-staff-modal-item:last-child {
+  border-bottom: none;
+}
+
+.week-staff-modal-item:hover {
+  background-color: #f0d8b0;
+}
+
+/* ── Content card ── */
+.week-detail-card {
+  background-color: #ecd5b0;
+  border: 2px inset #c87820;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.week-detail-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Schedules box ── */
+.week-schedules-box {
+  margin-top: 16px;
+  background-color: #ecd5b0;
+  border: 2px inset #c87820;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.week-schedules-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.week-schedules-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #4a2800;
+  font-weight: bold;
+  flex: 1;
+}
+
+.week-schedules-create {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-detail-bg .btn--danger {
+  background-color: #f0b8a0;
+  border-color: #c04820;
+  color: #3a0a00;
+}
+
+.week-detail-bg .btn--cancel {
+  background-color: #f0d8c0;
+  border-color: #c87820;
+  color: #3a1e00;
+}
+
+.week-detail-bg .modal-box {
+  background-color: #f5e4c8;
+}
+
+.week-off-periods-box {
+  margin-top: 16px;
+  background-color: #ecd5b0;
+  border: 2px inset #c87820;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.week-off-periods-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.week-off-periods-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.week-off-periods-label {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  color: #4a2800;
+}
+
+.week-off-periods-count {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #4a2800;
+  font-weight: bold;
+  min-width: 32px;
+  text-align: right;
+}
+
+.week-off-periods-row--flagged {
+  background-color: #ff8c00;
+}
+
+.week-off-periods-row--flagged .week-excluded-name,
+.week-off-periods-row--flagged .week-off-periods-count {
+  color: #fff;
+}
+
+.week-delete-confirm-text {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #3a1e00;
+  margin-bottom: 16px;
+}

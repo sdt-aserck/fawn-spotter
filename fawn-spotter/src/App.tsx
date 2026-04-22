@@ -11,7 +11,7 @@ const pages = [
   { title: "Staff", to: "/staff", gif: staffGif },
   { title: "Activities", to: "/activities", gif: activitiesGif },
   { title: "Shared Experience", to: "/shared-experience", gif: sharedGif },
-  { title: "Scheduling", to: null, gif: scheduleGif },
+  { title: "Scheduling", to: "/scheduling", gif: scheduleGif },
   { title: "Timeslots", to: "/timeslots", gif: timeslotGif },
   { title: "Fortune Teller", to: null, gif: fortuneGif },
 ];

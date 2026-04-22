@@ -18,19 +18,21 @@ type SpecialRatioMode = "off" | "ratio" | "set";
 
 interface FormState {
   name: string;
-  councilorRatio: string;
+  counselorRatio: string;
   specialRatioMode: SpecialRatioMode;
   specialRatioTag: string;
   specialRatioValue: string;
+  allCampersIncluded: boolean;
 }
 
 function emptyForm(firstTag = ""): FormState {
   return {
     name: "",
-    councilorRatio: "",
+    counselorRatio: "",
     specialRatioMode: "off",
     specialRatioTag: firstTag,
     specialRatioValue: "",
+    allCampersIncluded: false,
   };
 }
 
@@ -39,16 +41,17 @@ function toActivityType(id: string, form: FormState): ActivityType {
     form.specialRatioMode !== "off" && form.specialRatioTag
       ? { tag: form.specialRatioTag, type: form.specialRatioMode, value: parseFloat(form.specialRatioValue) || 0 }
       : null;
-  return new ActivityType(id, form.name.trim(), parseFloat(form.councilorRatio) || 0, specialRatio);
+  return new ActivityType(id, form.name.trim(), parseFloat(form.counselorRatio) || 0, specialRatio, form.allCampersIncluded);
 }
 
 function toFormState(a: ActivityType): FormState {
   return {
     name: a.name,
-    councilorRatio: String(a.councilorRatio),
+    counselorRatio: String(a.counselorRatio),
     specialRatioMode: a.specialRatio ? a.specialRatio.type : "off",
     specialRatioTag: a.specialRatio ? a.specialRatio.tag : "",
     specialRatioValue: a.specialRatio ? String(a.specialRatio.value) : "",
+    allCampersIncluded: a.allCampersIncluded ?? false,
   };
 }
 
@@ -85,9 +88,9 @@ function ActivityForm({
           type="number"
           min="0"
           step="0.1"
-          value={form.councilorRatio}
+          value={form.counselorRatio}
           placeholder="e.g. 5.5"
-          onChange={(e) => onChange({ councilorRatio: e.currentTarget.value })}
+          onChange={(e) => onChange({ counselorRatio: e.currentTarget.value })}
         />
       </div>
 
@@ -128,6 +131,18 @@ function ActivityForm({
             </div>
           )}
         </div>
+      </div>
+
+      <div className="form-row">
+        <label className="form-label" />
+        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={form.allCampersIncluded}
+            onChange={(e) => onChange({ allCampersIncluded: e.currentTarget.checked })}
+          />
+          All Campers Included in Activity
+        </label>
       </div>
 
       <div className="form-actions">
@@ -246,12 +261,12 @@ function ActivitiesPage() {
               {activities.length === 0
                 ? <span className="tag-empty">No activities yet.</span>
                 : sortedActivities.map((activity) => (
-                    <div key={activity.id} className="staff-row">
-                      <span className="staff-name">{activity.name}</span>
-                      <span className="activity-ratio">ratio: {activity.councilorRatio}</span>
-                      <button className="btn btn--edit" onClick={() => openEdit(activity)}>Edit</button>
-                    </div>
-                  ))
+                  <div key={activity.id} className="staff-row">
+                    <span className="staff-name">{activity.name}</span>
+                    <span className="activity-ratio">ratio: {activity.counselorRatio}</span>
+                    <button className="btn btn--edit" onClick={() => openEdit(activity)}>Edit</button>
+                  </div>
+                ))
               }
             </div>
           </details>

@@ -1,0 +1,19 @@
+I want to add the ability to duplicate weeks on the SchedulingPage. There should be a button to duplicate a week on each week that has a modal to confirm the duplication action. When a week is duplicated, the name should be updated to add the word "- Copy" to the end of the week's title. All of the schedules in the week should be duplicated too, so that editing a schedule in the duplicated week does not update the schedule in the original week. All of these new schedules should have the week associated with them to the new week and not the old existing one. Ask any clarifying questions if any decisions are unclear.
+
+I want to be able to reorder the activities by dragging and dropping them on the timeslots of the schedule on the ScheduleDetaillPage. A single click will open the activity but clicking and dragging will allow reordering.
+
+Add the ability on the Week view page to view how many OFF periods each councilor (that is not in the list of excluded councilors for the week) has. It should scan each schedule associated for the week and all of the timeslots in the schedule and total how many periods that councilor is off. There should be a box above the display that has a numerical input with the label "Min. off periods" that will highlight the councilors in a bright orange if their total is less than this number.
+
+Add the ability for all alerts to be viewed in the Alert box below the schedule. This should have all the alerts from all the activities on the schedule. It should say the Timeslot, the activity, and the alert. Clicking on the alert should bring up the edit modal for that event.
+
+Extend the alerting system to have alerts for the Required Activities of the timeslots show in the alerts box below. If that timeslot does not have the activity in it, have an alert below it. These should have a different alert icon of "⛺" with the timeslot and what activity it should have. If the alert is clicked, bring up the Add Activity modal with that activity type selected to add it to the correct timeslot.
+
+-----
+
+Add another export option for the SharedExperience page that creates a compacted view like the attatched image. It should have abbreviated cabins, what activities they are doing on that day of the week. Also add the leader in parenthesis. Export this as a document file, and make a new class to handle the exporting of this document. Add a button that says "Export Compacted Document" below the "Generate Document" button.
+
+Instead of Emojis on the titles of the tops of pages (eg 📅 Scheduling 📅), I want to display small gifs. 
+
+clear only staff not the activities themselves.
+
+Export the schedule

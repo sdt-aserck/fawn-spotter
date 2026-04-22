@@ -42,12 +42,12 @@ interface Cabin {
 
 interface Activity {
   name: string;
-  leader: string;
 }
 
 interface SlotValue {
   day: string;
   activity: string;
+  leader: string;
 }
 
 interface SharedExperience {
@@ -62,10 +62,10 @@ interface SharedExperience {
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const DEFAULT_ACTIVITIES: Activity[] = [
-  { name: "Zipline", leader: "" },
-  { name: "Creek", leader: "" },
-  { name: "Fire", leader: "" },
-  { name: "Hike", leader: "" },
+  { name: "Zipline" },
+  { name: "Creek" },
+  { name: "Fire" },
+  { name: "Hike" },
 ];
 
 function camperKey(c: Camper) {
@@ -180,10 +180,10 @@ function makeSE(groupIndex: number, acts: Activity[]): SharedExperience {
   return {
     id: crypto.randomUUID(),
     groupNumber: groupIndex + 1,
-    slot1: { day: days[0], activity: a(0) },
-    slot2: { day: days[1], activity: a(1) },
-    slot3: { day: days[2], activity: a(2) },
-    slot4: { day: days[3], activity: a(3) },
+    slot1: { day: days[0], activity: a(0), leader: "" },
+    slot2: { day: days[1], activity: a(1), leader: "" },
+    slot3: { day: days[2], activity: a(2), leader: "" },
+    slot4: { day: days[3], activity: a(3), leader: "" },
     cabinNames: [],
   };
 }
@@ -420,10 +420,6 @@ function SharedExperiencePage() {
               <details className="collapsible se-activity-collapsible">
                 <summary className="collapsible-summary">Activities ({activities.length})</summary>
                 <div className="collapsible-body">
-                  <div className="se-activity-header-row">
-                    <span className="se-activity-col-label">Activity</span>
-                    <span className="se-activity-col-label">Leader</span>
-                  </div>
                   {activities.map((a, i) => (
                     <div key={i} className="se-activity-row">
                       <input
@@ -431,13 +427,6 @@ function SharedExperiencePage() {
                         type="text"
                         value={a.name}
                         onChange={(e) => { const val = e.currentTarget.value; setActivities((prev) => prev.map((v, j) => j === i ? { ...v, name: val } : v)); }}
-                      />
-                      <input
-                        className="form-input se-activity-input"
-                        type="text"
-                        value={a.leader}
-                        placeholder="Leader name..."
-                        onChange={(e) => { const val = e.currentTarget.value; setActivities((prev) => prev.map((v, j) => j === i ? { ...v, leader: val } : v)); }}
                       />
                       <button
                         className="cabin-pill-remove se-activity-remove"
@@ -454,14 +443,14 @@ function SharedExperiencePage() {
                       onChange={(e) => setNewActivity(e.currentTarget.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && newActivity.trim()) {
-                          setActivities((prev) => [...prev, { name: newActivity.trim(), leader: "" }]);
+                          setActivities((prev) => [...prev, { name: newActivity.trim() }]);
                           setNewActivity("");
                         }
                       }}
                     />
                     <button
                       className="btn btn--small"
-                      onClick={() => { if (newActivity.trim()) { setActivities((prev) => [...prev, { name: newActivity.trim(), leader: "" }]); setNewActivity(""); } }}
+                      onClick={() => { if (newActivity.trim()) { setActivities((prev) => [...prev, { name: newActivity.trim() }]); setNewActivity(""); } }}
                     >+</button>
                   </div>
                 </div>
@@ -481,9 +470,15 @@ function SharedExperiencePage() {
                         <button className="btn btn--danger btn--small" onClick={() => removeSE(se.id)}>✕ Remove</button>
                       </div>
                       <div className="se-slots">
-                        {([["slot1", "Activity 1"], ["slot2", "Activity 2"], ["slot3", "Activity 3"], ["slot4", "Activity 4"]] as const).map(([field, label]) => (
+                        <div className="se-slot-header-row">
+                          <span className="se-slot-header-cell se-slot-header-label"></span>
+                          <span className="se-slot-header-cell">Day</span>
+                          <span className="se-slot-header-cell">Activity</span>
+                          <span className="se-slot-header-cell">Leader</span>
+                        </div>
+                        {([["slot1", "1"], ["slot2", "2"], ["slot3", "3"], ["slot4", "4"]] as const).map(([field, label]) => (
                           <div key={field} className="se-slot-row">
-                            <label className="se-slot-label">{label}</label>
+                            <label className="se-slot-label">Activity {label}</label>
                             <select
                               className="form-input se-slot-select"
                               value={se[field].day}
@@ -499,6 +494,13 @@ function SharedExperiencePage() {
                               <option value="">— activity —</option>
                               {activities.map((a) => <option key={a.name} value={a.name}>{a.name}</option>)}
                             </select>
+                            <input
+                              className="form-input se-slot-leader"
+                              type="text"
+                              value={se[field].leader}
+                              placeholder="Leader..."
+                              onChange={(e) => { const val = e.currentTarget.value; updateSE(se.id, { [field]: { ...se[field], leader: val } }); }}
+                            />
                           </div>
                         ))}
                       </div>
@@ -546,7 +548,7 @@ function SharedExperiencePage() {
               onClick={async () => {
                 setGenerating(true);
                 try {
-                  await generateDocument(sharedExperiences, cabins, activities);
+                  await generateDocument(sharedExperiences, cabins);
                   const msg = CELEBRATION_MESSAGES[Math.floor(Math.random() * CELEBRATION_MESSAGES.length)];
                   setCelebrationMessage(msg);
                 }

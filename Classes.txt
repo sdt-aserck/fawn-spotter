@@ -2,9 +2,14 @@ Enums:
 Villages: Plains, Village, Admin
 
 Classes:
-Councilor: Name, Notes, (enum)Village, (string[])Tags
-ActivityType: Name, (unicode emoji in a string)Icon, (float)Councilor Ratio, {Tag, type(ratio, set #)} Special Ratio
-Activity: ActivityType, Timeslot, (Councilor[]) Councilors, (Councilor)Leader, Notes
+Counselor: Name, Notes, (enum)Village, (string[])Tags
+ActivityType: Name, (unicode emoji in a string)Icon, (float)Counselor Ratio, {Tag, type(ratio, set #)} Special Ratio
+Activity: ActivityType, Timeslot, (Counselor[]) Counselors, (Counselor)Leader, Notes
 TimeSlot: Time Start, Time Name, (ActivityType[])TypicalActivities, (Activity)RequiredActivities
 Schedule: (TimeSlot[]) Timeslots, Activities, Date
-Week: Schedule[], (int)numCampers, (Councilor[])excludedCouncilors
+Week: Schedule[], (int)numCampers, (Counselor[])excludedCounselors
+
+
+TODO:
+Have Staff for Shared Experiences be 
+Generate Shared Experience Cutable document
