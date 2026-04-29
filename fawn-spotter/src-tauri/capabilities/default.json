@@ -8,10 +8,13 @@
     "opener:default",
     "store:default",
     "dialog:default",
+    "dialog:allow-open",
     "dialog:allow-save",
     "fs:default",
+    "fs:allow-read-text-file",
     "fs:allow-write-file",
     "fs:scope-download-recursive",
-    "fs:scope-document-recursive"
+    "fs:scope-document-recursive",
+    "fs:scope-home-recursive"
   ]
 }

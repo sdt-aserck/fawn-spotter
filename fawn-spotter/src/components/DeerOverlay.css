@@ -1,0 +1,7 @@
+.deer-overlay {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: 120px;
+  height: auto;
+}

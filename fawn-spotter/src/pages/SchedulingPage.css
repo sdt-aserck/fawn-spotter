@@ -4,6 +4,11 @@
   background-image: none;
 }
 
+.scheduling-bg .site-title {
+  color: #b86010;
+  text-shadow: 2px 2px #ffffff;
+}
+
 /* ── Collapsible (orange tint) ── */
 .scheduling-bg .collapsible {
   border-color: #c87820;

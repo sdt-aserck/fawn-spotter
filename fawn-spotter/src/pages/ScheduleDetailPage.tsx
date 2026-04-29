@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { exportScheduleToSpreadsheet } from "../utils/DayScheduleExport";
+import { randomCelebrationMessage } from "../utils/celebrationMessages";
+import titleGif from "../assets/page-titles/schedule_detail.gif";
 import { load } from "@tauri-apps/plugin-store";
 import NavBar from "../components/NavBar";
 import ActivitySelectionModal from "../components/ActivitySelectionModal";
@@ -10,6 +13,7 @@ import type { Activity } from "../Model/Activity";
 import type { ScheduleRecord, WeekRecord } from "./SchedulingPage";
 import "../App.css";
 import "./ScheduleDetailPage.css";
+import "./SharedExperiencePage.css";
 
 const STORE_FILE = "fawn-spotter.json";
 const SCHEDULES_KEY = "schedules";
@@ -20,6 +24,106 @@ const STAFF_KEY = "staff";
 
 async function getStore() {
   return load(STORE_FILE, { defaults: {} });
+}
+
+interface Particle {
+  x: number; y: number;
+  vx: number; vy: number;
+  color: string;
+  angle: number; spin: number;
+  size: number; life: number;
+}
+
+function ConfettiOverlay({ onDone }: { onDone: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current!;
+    const ctx = canvas.getContext("2d")!;
+    const COLORS = ["#f5c842", "#e84393", "#42b0f5", "#7ae842", "#f56042", "#c042f5", "#42f5b3"];
+    const particles: Particle[] = [];
+    let animId: number;
+    const startTime = performance.now();
+    const DURATION = 10000;
+
+    function burst(cx: number, cy: number, count: number) {
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 4 + Math.random() * 10;
+        particles.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 4,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.3,
+          size: 7 + Math.random() * 8,
+          life: 1,
+        });
+      }
+    }
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    burst(canvas.width / 2, canvas.height / 2, 180);
+
+    let lastBurst = startTime;
+
+    function frame(now: number) {
+      const elapsed = now - startTime;
+      if (elapsed > DURATION && particles.length === 0) {
+        onDone();
+        return;
+      }
+
+      if (elapsed < 8000 && now - lastBurst > 600) {
+        burst(
+          canvas.width * (0.2 + Math.random() * 0.6),
+          canvas.height * (0.1 + Math.random() * 0.4),
+          40
+        );
+        lastBurst = now;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.25;
+        p.vx *= 0.99;
+        p.angle += p.spin;
+        p.life -= 0.008;
+        if (p.life <= 0 || p.y > canvas.height + 20) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.min(p.life, 1);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+        ctx.restore();
+      }
+
+      animId = requestAnimationFrame(frame);
+    }
+
+    animId = requestAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, [onDone]);
+
+  return <canvas ref={canvasRef} className="confetti-canvas" />;
 }
 
 interface TimeSlotRecord {
@@ -130,12 +234,17 @@ function StaffPickerModal({
   onClose: () => void;
 }) {
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<"none" | "name" | "village">("none");
   const searchRef = useRef<HTMLInputElement>(null);
   useEffect(() => { searchRef.current?.focus(); }, []);
 
-  const filtered = allStaff.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = allStaff
+    .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (sort === "name") return a.name.localeCompare(b.name);
+      if (sort === "village") return a.village.localeCompare(b.village);
+      return 0;
+    });
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -149,6 +258,18 @@ function StaffPickerModal({
           value={search}
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
+        <div className="sort-bar" style={{ marginTop: 6 }}>
+          <span className="sort-label">Sort:</span>
+          {(["none", "name", "village"] as const).map((opt) => (
+            <button
+              key={opt}
+              className={`btn btn--sort${sort === opt ? " btn--sort-active" : ""}`}
+              onClick={() => setSort(opt)}
+            >
+              {opt === "none" ? "No Sort" : opt.charAt(0).toUpperCase() + opt.slice(1)}
+            </button>
+          ))}
+        </div>
         <div className="week-staff-modal-list">
           {filtered.length === 0
             ? <span className="tag-empty">No staff match.</span>
@@ -164,6 +285,129 @@ function StaffPickerModal({
           }
         </div>
         <button className="btn btn--cancel modal-cancel" onClick={onClose}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+function MultiStaffPickerModal({
+  allStaff,
+  onConfirm,
+  onClose,
+}: {
+  allStaff: StaffMember[];
+  onConfirm: (ids: string[]) => void;
+  onClose: () => void;
+}) {
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<"none" | "name" | "village">("none");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const searchRef = useRef<HTMLInputElement>(null);
+  const selectAllRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { searchRef.current?.focus(); }, []);
+
+  const filtered = allStaff
+    .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (sort === "name") return a.name.localeCompare(b.name);
+      if (sort === "village") return a.village.localeCompare(b.village);
+      return 0;
+    });
+
+  const allFilteredSelected = filtered.length > 0 && filtered.every((s) => selected.has(s.id));
+  const someFilteredSelected = filtered.some((s) => selected.has(s.id));
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someFilteredSelected && !allFilteredSelected;
+    }
+  }, [someFilteredSelected, allFilteredSelected]);
+
+  function toggleOne(id: string) {
+    setSearch("");
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    if (allFilteredSelected) {
+      setSelected((prev) => {
+        const next = new Set(prev);
+        filtered.forEach((s) => next.delete(s.id));
+        return next;
+      });
+    } else {
+      setSelected((prev) => {
+        const next = new Set(prev);
+        filtered.forEach((s) => next.add(s.id));
+        return next;
+      });
+    }
+  }
+
+  function handleConfirm() {
+    onConfirm([...selected]);
+    onClose();
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="multi-staff-modal-header">
+          <h2 className="modal-title">Add Staff</h2>
+          <label className="week-staff-modal-select-all">
+            Select All
+            <input
+              ref={selectAllRef}
+              type="checkbox"
+              checked={allFilteredSelected}
+              onChange={toggleAll}
+            />
+          </label>
+        </div>
+        <input
+          ref={searchRef}
+          className="form-input"
+          type="text"
+          placeholder="Search staff..."
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+        />
+        <div className="sort-bar" style={{ marginTop: 6 }}>
+          <span className="sort-label">Sort:</span>
+          {(["none", "name", "village"] as const).map((opt) => (
+            <button
+              key={opt}
+              className={`btn btn--sort${sort === opt ? " btn--sort-active" : ""}`}
+              onClick={() => setSort(opt)}
+            >
+              {opt === "none" ? "No Sort" : opt.charAt(0).toUpperCase() + opt.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div className="week-staff-modal-list">
+          {filtered.length === 0
+            ? <span className="tag-empty">No staff match.</span>
+            : filtered.map((s) => (
+              <button
+                key={s.id}
+                className={`week-staff-modal-item${selected.has(s.id) ? " week-staff-modal-item--selected" : ""}`}
+                onClick={() => toggleOne(s.id)}
+              >
+                <span style={{ marginRight: 6 }}>{villageIcon(s.village)}</span>{s.name}
+              </button>
+            ))
+          }
+        </div>
+        <div className="sched-entry-actions">
+          <button className="btn btn--cancel" onClick={onClose}>Cancel</button>
+          <button className="btn btn--primary" disabled={selected.size === 0} onClick={handleConfirm}>
+            Add{selected.size > 0 ? ` ${selected.size}` : ""} Staff
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -314,9 +558,9 @@ function ActivityEntryModal({ allActivityTypes, allStaff, alreadyScheduledIds, w
 
   if (showStaffPicker) {
     return (
-      <StaffPickerModal
+      <MultiStaffPickerModal
         allStaff={availableAdditionalStaff}
-        onSelect={(id) => { setStaffMemberIds((prev) => [...prev, id]); setShowStaffPicker(false); }}
+        onConfirm={(ids) => setStaffMemberIds((prev) => [...new Set([...prev, ...ids])])}
         onClose={() => setShowStaffPicker(false)}
       />
     );
@@ -439,6 +683,7 @@ function CalendarColumn({
   onAdd,
   onEdit,
   onClear,
+  onClearStaff,
   onReorder,
   onMoveToSlot,
   crossDrag,
@@ -450,6 +695,7 @@ function CalendarColumn({
   onAdd: () => void;
   onEdit: (activity: Activity) => void;
   onClear: () => void;
+  onClearStaff: () => void;
   onReorder: (newOrder: Activity[]) => void;
   onMoveToSlot: (activityId: string, targetSlotId: string, insertBeforeActivityId: string | null) => void;
   crossDrag: CrossDragState | null;
@@ -583,7 +829,8 @@ function CalendarColumn({
               Remove all {activities.length} {activities.length === 1 ? "activity" : "activities"} from <strong>{slot.timeName}</strong>? This cannot be undone.
             </p>
             <div className="form-actions sched-entry-actions">
-              <button className="btn btn--danger" onClick={() => { onClear(); setConfirmClear(false); }}>Clear</button>
+              <button className="btn btn--danger" onClick={() => { onClear(); setConfirmClear(false); }}>Clear Activities</button>
+              <button className="btn btn--warning" onClick={() => { onClearStaff(); setConfirmClear(false); }}>Clear Staff</button>
               <button className="btn btn--cancel" onClick={() => setConfirmClear(false)}>Cancel</button>
             </div>
           </div>
@@ -629,9 +876,12 @@ function ScheduleDetailPage() {
   const [allActivityTypes, setAllActivityTypes] = useState<ActivityType[]>([]);
   const [allStaff, setAllStaff] = useState<StaffMember[]>([]);
 
+  const [stripEmojis, setStripEmojis] = useState(false);
+  const [celebrationMessage, setCelebrationMessage] = useState<string | null>(null);
   const [showTimeslotPicker, setShowTimeslotPicker] = useState(false);
   // null = closed; { timeslotId, activity: null } = create; { timeslotId, activity } = edit
   const [entryModal, setEntryModal] = useState<{ timeslotId: string; activity: Activity | null; preselectedActivityTypeId?: string } | null>(null);
+  const lastActivityTypeIdRef = useRef<string | null>(null);
   const [crossDrag, setCrossDrag] = useState<CrossDragState | null>(null);
 
   useEffect(() => {
@@ -684,6 +934,23 @@ function ScheduleDetailPage() {
   function clearTimeslot(timeslotId: string) {
     if (!schedule) return;
     saveSchedule({ ...schedule, activities: (schedule.activities ?? []).filter((a) => (a.timeslot as unknown as { id: string }).id !== timeslotId) });
+  }
+
+  function clearTimeslotStaff(timeslotId: string) {
+    if (!schedule) return;
+    saveSchedule({
+      ...schedule,
+      activities: (schedule.activities ?? []).map((a) =>
+        (a.timeslot as unknown as { id: string }).id === timeslotId
+          ? {
+              ...a,
+              staffMembers: [],
+              leader: null,
+              numCampers: a.activityType.allCampersIncluded ? a.numCampers : 0,
+            }
+          : a
+      ),
+    });
   }
 
   function addActivity(timeslotId: string, activityTypeId: string, numCampers: number, leaderId: string | null, staffMemberIds: string[]) {
@@ -766,7 +1033,7 @@ function ScheduleDetailPage() {
           <button className="btn schedule-detail-btn--back" onClick={() => navigate(-1)}>← Back</button>
         </div>
         <header className="site-header">
-          <h1 className="site-title">{schedule ? formatDate(schedule.date) : "Schedule"}</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />{schedule ? formatDate(schedule.date) : "Schedule"}<img src={titleGif} className="title-gif" alt="" /></h1>
           {week && <p className="schedule-detail-week-sub">{week.name}</p>}
           <hr className="divider" />
         </header>
@@ -837,6 +1104,7 @@ function ScheduleDetailPage() {
                     onAdd={() => setEntryModal({ timeslotId: slot.id, activity: null })}
                     onEdit={(activity) => setEntryModal({ timeslotId: slot.id, activity })}
                     onClear={() => clearTimeslot(slot.id)}
+                    onClearStaff={() => clearTimeslotStaff(slot.id)}
                     onReorder={(reordered) => reorderActivities(slot.id, reordered)}
                     onMoveToSlot={moveActivityToSlot}
                     crossDrag={crossDrag}
@@ -932,6 +1200,23 @@ function ScheduleDetailPage() {
             );
           })()}
 
+          <div className="sched-export-section">
+            <label className="sched-export-option">
+              <input
+                type="checkbox"
+                checked={stripEmojis}
+                onChange={(e) => setStripEmojis(e.currentTarget.checked)}
+              />
+              Remove emojis from activity names
+            </label>
+            <button className="btn btn--primary" onClick={async () => {
+              const saved = await exportScheduleToSpreadsheet(schedule!, week, allTimeslots, allStaff, stripEmojis);
+              if (saved) setCelebrationMessage(randomCelebrationMessage());
+            }}>
+              Export Schedule to Spreadsheet
+            </button>
+          </div>
+
         </main>
       </div>
 
@@ -974,9 +1259,12 @@ function ScheduleDetailPage() {
               }
               : entryModal.preselectedActivityTypeId
                 ? { activityTypeId: entryModal.preselectedActivityTypeId, numCampers: 0, leaderId: null, staffMemberIds: [] }
-                : null
+                : lastActivityTypeIdRef.current
+                  ? { activityTypeId: lastActivityTypeIdRef.current, numCampers: 0, leaderId: null, staffMemberIds: [] }
+                  : null
             }
             onSave={(activityTypeId, numCampers, leaderId, staffMemberIds) => {
+              lastActivityTypeIdRef.current = activityTypeId;
               if (entryModal.activity) {
                 updateActivity(entryModal.activity.id, activityTypeId, numCampers, leaderId, staffMemberIds);
               } else {
@@ -992,6 +1280,22 @@ function ScheduleDetailPage() {
           />
         );
       })()}
+
+      {celebrationMessage && (
+        <ConfettiOverlay onDone={() => {}} />
+      )}
+
+      {celebrationMessage && (
+        <div className="modal-overlay" onClick={() => setCelebrationMessage(null)}>
+          <div className="modal-box celebration-modal" onClick={(e) => e.stopPropagation()}>
+            <h2 className="celebration-header">🎉 CONGRATULATIONS 🎉</h2>
+            <p className="celebration-body">{celebrationMessage}</p>
+            <button className="btn btn--primary" onClick={() => setCelebrationMessage(null)}>
+              Yippeeee &lt;3
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,11 @@
   background-image: none;
 }
 
+.schedule-detail-bg .site-title {
+  color: #8a1848;
+  text-shadow: 2px 2px #ffffff;
+}
+
 /* Allow the page to be wider to accommodate the calendar */
 .schedule-detail-wide {
   max-width: 100%;
@@ -165,7 +170,7 @@
   padding: 8px;
   gap: 8px;
   background-color: #fdf4f7;
-  min-height: 320px;
+  min-height: 480px;
 }
 
 .sched-cal-entry {
@@ -408,6 +413,35 @@
   color: #3a0a00;
 }
 
+.schedule-detail-bg .btn--warning {
+  background-color: #f5e0a0;
+  border-color: #b88000;
+  color: #3a2800;
+}
+
+.sched-export-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.sched-export-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  color: #4a1828;
+  cursor: pointer;
+}
+
+.sched-export-section .btn {
+  font-size: 22px;
+  padding: 10px 32px;
+}
+
 .schedule-detail-bg .week-staff-modal-list {
   max-height: 280px;
   overflow-y: auto;
@@ -424,4 +458,27 @@
 
 .schedule-detail-bg .tag-empty {
   color: #a03060;
+}
+
+.week-staff-modal-item--selected {
+  background-color: #f5b8cf;
+  border-color: #c8507a;
+  color: #3a0818;
+  font-weight: bold;
+}
+
+.multi-staff-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.week-staff-modal-select-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 22px;
+  color: #4a1828;
+  cursor: pointer;
 }

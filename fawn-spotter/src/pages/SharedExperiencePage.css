@@ -4,6 +4,11 @@
   background-image: none;
 }
 
+.shared-experience-bg .site-title {
+  color: #9a7800;
+  text-shadow: 2px 2px #ffffff;
+}
+
 /* ── Collapsible (yellow tint) ── */
 .shared-experience-bg .collapsible {
   border-color: #c8a820;

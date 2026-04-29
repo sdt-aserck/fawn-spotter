@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
+import titleGif from "../assets/page-titles/staff.gif";
 import NavBar from "../components/NavBar";
 import { StaffMember } from "../Model/StaffMember";
+import { ActivityType } from "../Model/ActivityType";
 import { Villages } from "../Model/Villages";
 import type { Tag } from "../Model/Tag";
 import "../App.css";
@@ -10,6 +12,7 @@ import "./StaffPage.css";
 const STORE_FILE = "fawn-spotter.json";
 const TAGS_KEY = "tags";
 const STAFF_KEY = "staff";
+const ACTIVITIES_KEY = "activityTypes";
 
 async function getStore() {
   return load(STORE_FILE, { defaults: {} });
@@ -117,6 +120,7 @@ function StaffPage() {
   const [editTarget, setEditTarget] = useState<StaffMember | null>(null);
   const [editForm, setEditForm] = useState<FormState>(emptyForm());
   const [sort, setSort] = useState<"none" | "name" | "village">("none");
+  const [removeTagTarget, setRemoveTagTarget] = useState<Tag | null>(null);
 
   useEffect(() => {
     getStore().then(async (store) => {
@@ -140,6 +144,29 @@ function StaffPage() {
     setNewTag("");
     const store = await getStore();
     await store.set(TAGS_KEY, updated);
+  }
+
+  async function confirmRemoveTag(tag: Tag) {
+    const updatedTags = tags.filter((t) => t !== tag);
+    const updatedStaff = staff.map((s) =>
+      s.tags.includes(tag)
+        ? new StaffMember(s.id, s.name, s.notes, s.village, s.tags.filter((t) => t !== tag))
+        : s
+    );
+    const store = await getStore();
+    const savedActivities = await store.get<ActivityType[]>(ACTIVITIES_KEY);
+    const activities: ActivityType[] = savedActivities ?? [];
+    const updatedActivities = activities.map((a) =>
+      a.specialRatio?.tag === tag
+        ? new ActivityType(a.id, a.name, a.counselorRatio, null, a.allCampersIncluded)
+        : a
+    );
+    setTags(updatedTags);
+    setStaff(updatedStaff);
+    setRemoveTagTarget(null);
+    await store.set(TAGS_KEY, updatedTags);
+    await store.set(STAFF_KEY, updatedStaff);
+    await store.set(ACTIVITIES_KEY, updatedActivities);
   }
 
   function addStaff() {
@@ -190,7 +217,7 @@ function StaffPage() {
       <NavBar />
       <div className="page">
         <header className="site-header">
-          <h1 className="site-title">🏕️ Staff 🏕️</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />Staff<img src={titleGif} className="title-gif" alt="" /></h1>
           <hr className="divider" />
         </header>
         <main>
@@ -213,7 +240,16 @@ function StaffPage() {
               <div className="tag-list">
                 {tags.length === 0
                   ? <span className="tag-empty">No tags yet.</span>
-                  : tags.map((tag) => <span key={tag} className="tag-chip">{tag}</span>)
+                  : tags.map((tag) => (
+                    <span key={tag} className="tag-chip tag-chip--removable">
+                      {tag}
+                      <button
+                        className="tag-remove-btn"
+                        onClick={(e) => { e.stopPropagation(); setRemoveTagTarget(tag); }}
+                        title={`Remove tag "${tag}"`}
+                      >×</button>
+                    </span>
+                  ))
                 }
               </div>
             </div>
@@ -271,6 +307,23 @@ function StaffPage() {
 
         </main>
       </div>
+
+      {/* Remove Tag Confirmation Modal */}
+      {removeTagTarget && (
+        <div className="modal-overlay" onClick={() => setRemoveTagTarget(null)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <h2 className="modal-title">Remove Tag</h2>
+            <p className="modal-body-text">
+              Remove tag <strong>"{removeTagTarget}"</strong>?
+              This will also remove it from all staff members and clear any activity certification requirements using this tag.
+            </p>
+            <div className="form-actions">
+              <button className="btn btn--cancel" onClick={() => setRemoveTagTarget(null)}>Cancel</button>
+              <button className="btn btn--danger" onClick={() => confirmRemoveTag(removeTagTarget)}>Remove</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Edit Modal */}
       {editTarget && (

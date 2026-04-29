@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
 import NavBar from "../components/NavBar";
 import ActivitySelectionModal from "../components/ActivitySelectionModal";
+import titleGif from "../assets/page-titles/timeslots.gif";
 import { ActivityType } from "../Model/ActivityType";
 import "../App.css";
 import "./TimeSlotsPage.css";
@@ -95,8 +96,9 @@ function TimeSlotForm({
       <div className="form-row">
         <label className="form-label">Time</label>
         <input
-          className="form-input form-input--short"
+          className="form-input timeslot-time-input"
           type="time"
+          step={300}
           value={form.timeStart}
           onChange={(e) => onChange({ timeStart: e.currentTarget.value })}
         />
@@ -220,7 +222,7 @@ function TimeSlotsPage() {
       <NavBar />
       <div className="page">
         <header className="site-header">
-          <h1 className="site-title">🕐 Timeslots 🕐</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />Timeslots<img src={titleGif} className="title-gif" alt="" /></h1>
           <hr className="divider" />
         </header>
         <main>

@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { load } from "@tauri-apps/plugin-store";
+import { open } from "@tauri-apps/plugin-dialog";
+import { readTextFile } from "@tauri-apps/plugin-fs";
 import NavBar from "../components/NavBar";
 import { ActivityType } from "../Model/ActivityType";
+import titleGif from "../assets/page-titles/activities.gif";
 import type { Tag } from "../Model/Tag";
 import "../App.css";
 import "./ActivitiesPage.css";
@@ -213,6 +216,21 @@ function ActivitiesPage() {
     setEditTarget(null);
   }
 
+  async function importFromTextFile() {
+    const filePath = await open({ filters: [{ name: "Text Files", extensions: ["txt"] }], multiple: false });
+    if (!filePath) return;
+    const text = await readTextFile(filePath as string);
+    const names = text.split("\n").map((l) => l.trim()).filter((l) => l.length > 0);
+    const existingNames = new Set(activities.map((a) => a.name));
+    const newActivities = names
+      .filter((n) => !existingNames.has(n))
+      .map((n) => new ActivityType(crypto.randomUUID(), n, 0, null, false));
+    if (newActivities.length === 0) return;
+    const updated = [...activities, ...newActivities];
+    setActivities(updated);
+    saveActivities(updated);
+  }
+
   const sortedActivities = [...activities].sort((a, b) => {
     if (sort === "name") return a.name.localeCompare(b.name);
     return 0;
@@ -223,10 +241,14 @@ function ActivitiesPage() {
       <NavBar />
       <div className="page">
         <header className="site-header">
-          <h1 className="site-title">🎯 Activities 🎯</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />Activities<img src={titleGif} className="title-gif" alt="" /></h1>
           <hr className="divider" />
         </header>
         <main>
+
+          <div style={{ marginBottom: 16 }}>
+            <button className="btn btn--primary" onClick={importFromTextFile}>Upload Activity Text File</button>
+          </div>
 
           {/* Add Activity */}
           <details className="collapsible">

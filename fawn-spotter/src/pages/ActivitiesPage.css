@@ -4,6 +4,11 @@
   background-image: none;
 }
 
+.activities-bg .site-title {
+  color: #1a4a80;
+  text-shadow: 2px 2px #ffffff;
+}
+
 /* ── Collapsible (blue tint) ── */
 .activities-bg .collapsible {
   border-color: #7aaac8;

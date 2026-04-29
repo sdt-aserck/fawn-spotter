@@ -1,7 +1,17 @@
+.timeslot-time-input {
+  flex: 0 0 auto;
+  width: 150px;
+}
+
 .timeslots-bg {
   min-height: 100vh;
   background-color: #ede0f5;
   background-image: none;
+}
+
+.timeslots-bg .site-title {
+  color: #6020a0;
+  text-shadow: 2px 2px #ffffff;
 }
 
 /* ── Collapsible (purple tint) ── */

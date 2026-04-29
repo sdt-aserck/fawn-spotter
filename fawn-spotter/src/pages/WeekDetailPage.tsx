@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import titleGif from "../assets/page-titles/week.gif";
 import { load } from "@tauri-apps/plugin-store";
 import NavBar from "../components/NavBar";
 import { EditScheduleDateModal } from "../components/EditScheduleDateModal";
@@ -58,14 +59,14 @@ function StaffPickerModal({
           {filtered.length === 0
             ? <span className="tag-empty">No staff match.</span>
             : filtered.map((s) => (
-                <button
-                  key={s.id}
-                  className="week-staff-modal-item"
-                  onClick={() => { onSelect(s.id); onClose(); }}
-                >
-                  {s.name}
-                </button>
-              ))
+              <button
+                key={s.id}
+                className="week-staff-modal-item"
+                onClick={() => { onSelect(s.id); onClose(); }}
+              >
+                {s.name}
+              </button>
+            ))
           }
         </div>
         <button className="btn btn--cancel modal-cancel" onClick={onClose}>Cancel</button>
@@ -91,14 +92,14 @@ function SchedulePickerModal({
           {available.length === 0
             ? <span className="tag-empty">No unassigned schedules.</span>
             : available.map((s) => (
-                <button
-                  key={s.id}
-                  className="week-staff-modal-item"
-                  onClick={() => { onSelect(s.id); onClose(); }}
-                >
-                  {formatDate(s.date)}
-                </button>
-              ))
+              <button
+                key={s.id}
+                className="week-staff-modal-item"
+                onClick={() => { onSelect(s.id); onClose(); }}
+              >
+                {formatDate(s.date)}
+              </button>
+            ))
           }
         </div>
         <button className="btn btn--cancel modal-cancel" onClick={onClose}>Cancel</button>
@@ -175,6 +176,17 @@ function WeekDetailPage() {
     saveWeek({ ...week, excludedStaffIds: (week.excludedStaffIds ?? []).filter((id) => id !== staffId) });
   }
 
+  function updateStaffUnit(staffId: string, unit: string) {
+    if (!week) return;
+    const units = { ...(week.staffUnits ?? {}) };
+    if (unit.trim()) {
+      units[staffId] = unit;
+    } else {
+      delete units[staffId];
+    }
+    saveWeek({ ...week, staffUnits: units });
+  }
+
   function createAndAssignSchedule() {
     if (!newScheduleDate) return;
     const record: ScheduleRecord = { id: crypto.randomUUID(), date: newScheduleDate, weekId: weekId!, timeslotIds: [], activities: [] };
@@ -197,6 +209,12 @@ function WeekDetailPage() {
   function removeSchedule(scheduleId: string) {
     const updated = schedules.map((s) => s.id === scheduleId ? { ...s, weekId: null } : s);
     saveSchedules(updated);
+  }
+
+  function deleteSchedule(scheduleId: string) {
+    const updated = schedules.filter((s) => s.id !== scheduleId);
+    saveSchedules(updated);
+    setEditScheduleId(null);
   }
 
   const excludedIds = week?.excludedStaffIds ?? [];
@@ -237,7 +255,7 @@ function WeekDetailPage() {
           <button className="btn btn--cancel" onClick={() => navigate("/scheduling")}>← Weeks</button>
         </div>
         <header className="site-header">
-          <h1 className="site-title">{week ? week.name : "Week"}</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />{week ? week.name : "Week"}<img src={titleGif} className="title-gif" alt="" /></h1>
           {week && (week.startDate || week.endDate) && (
             <p className="week-detail-dates">
               {week.startDate ? formatDate(week.startDate) : "?"}
@@ -249,7 +267,7 @@ function WeekDetailPage() {
         </header>
         <main>
           <div className="week-detail-card">
-
+            <span className="week-schedules-title">Week Overview</span>
             <div className="week-detail-card-top">
               <div className="form-row">
                 <label className="form-label">Num. Campers</label>
@@ -293,6 +311,30 @@ function WeekDetailPage() {
                       ))}
                     </ul>
                   )
+              }
+            </div>
+
+            <div className="week-units-section">
+              <span className="week-excluded-label">Staff Cabin Assignments</span>
+              {allStaff.length === 0
+                ? <span className="tag-empty">No staff added yet.</span>
+                : (
+                  <ul className="week-excluded-list">
+                    {[...allStaff].sort((a, b) => a.village.localeCompare(b.village) || a.name.localeCompare(b.name)).map((s) => (
+                      <li key={s.id} className="week-excluded-row">
+                        <span className="week-unit-village">{s.village.split(" ")[0]}</span>
+                        <span className="week-unit-name">{s.name}</span>
+                        <input
+                          className="form-input week-unit-input"
+                          type="text"
+                          value={week?.staffUnits?.[s.id] ?? ""}
+                          placeholder="Cabin"
+                          onChange={(e) => updateStaffUnit(s.id, e.currentTarget.value)}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )
               }
             </div>
 
@@ -413,6 +455,7 @@ function WeekDetailPage() {
           <EditScheduleDateModal
             currentDate={s.date}
             onSave={(date) => updateScheduleDate(editScheduleId, date)}
+            onDelete={() => deleteSchedule(editScheduleId)}
             onClose={() => setEditScheduleId(null)}
           />
         );

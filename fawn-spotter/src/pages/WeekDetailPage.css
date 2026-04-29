@@ -4,6 +4,11 @@
   background-image: none;
 }
 
+.week-detail-bg .site-title {
+  color: #b86010;
+  text-shadow: 2px 2px #ffffff;
+}
+
 .week-detail-back {
   margin-bottom: 12px;
 }
@@ -241,6 +246,39 @@
 .week-off-periods-row--flagged .week-excluded-name,
 .week-off-periods-row--flagged .week-off-periods-count {
   color: #fff;
+}
+
+/* ── Staff units ── */
+.week-units-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.week-units-section .week-excluded-list {
+  width: fit-content;
+  min-width: 30%;
+}
+
+.week-unit-village {
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+
+.week-unit-name {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 17px;
+  color: #3a1e00;
+  flex: 1;
+}
+
+.week-unit-input {
+  flex: 0 0 auto;
+  width: 64px;
+  font-size: 14px;
+  padding: 2px 6px;
+  text-align: center;
 }
 
 .week-delete-confirm-text {

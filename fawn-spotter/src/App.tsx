@@ -13,7 +13,7 @@ const pages = [
   { title: "Shared Experience", to: "/shared-experience", gif: sharedGif },
   { title: "Scheduling", to: "/scheduling", gif: scheduleGif },
   { title: "Timeslots", to: "/timeslots", gif: timeslotGif },
-  { title: "Fortune Teller", to: null, gif: fortuneGif },
+  { title: "Fortune Teller", to: "/fortune-teller", gif: fortuneGif },
 ];
 
 function App() {

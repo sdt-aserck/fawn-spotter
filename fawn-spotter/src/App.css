@@ -46,6 +46,13 @@
   letter-spacing: 2px;
 }
 
+.title-gif {
+  height: 1.2em;
+  width: auto;
+  vertical-align: middle;
+  margin: 0 0.35em;
+}
+
 .site-subtitle {
   color: #8aaa78;
   font-size: 20px;

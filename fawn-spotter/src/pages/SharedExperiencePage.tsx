@@ -1,5 +1,8 @@
 import { useState, useRef, useMemo, useEffect } from "react";
 import { generateDocument } from "../utils/generateSharedExperienceDoc";
+import titleGif from "../assets/page-titles/shared_experience.gif";
+import { generateCompactedDocument } from "../utils/generateCompactedSharedExperienceDoc";
+import { randomCelebrationMessage } from "../utils/celebrationMessages";
 import NavBar from "../components/NavBar";
 import "../App.css";
 import "./SharedExperiencePage.css";
@@ -198,21 +201,9 @@ function SharedExperiencePage() {
   );
   const [newActivity, setNewActivity] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [generatingCompact, setGeneratingCompact] = useState(false);
   const [celebrationMessage, setCelebrationMessage] = useState<string | null>(null);
 
-  const CELEBRATION_MESSAGES = [
-    "You look cute today :)",
-    "Look at you go!",
-    "Saving time and being whimsical I see ;)",
-    "Love your hair",
-    "Time to celebrate with a Blue Moon",
-    "A Fawn couldn't do it any faster!",
-    "You're the best Fawn!",
-    "Your spots are showing!",
-    "Send a pic in the chair!",
-    "Go jump in the rock bottom creek~",
-    "🦌🦌🦌🦌🦌🦌🦌"
-  ];
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   function handleFile(file: File) {
@@ -285,7 +276,7 @@ function SharedExperiencePage() {
       <NavBar />
       <div className="page">
         <header className="site-header">
-          <h1 className="site-title">🌟 Shared Experience 🌟</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />Shared Experience<img src={titleGif} className="title-gif" alt="" /></h1>
           <hr className="divider" />
         </header>
         <main>
@@ -549,7 +540,7 @@ function SharedExperiencePage() {
                 setGenerating(true);
                 try {
                   await generateDocument(sharedExperiences, cabins);
-                  const msg = CELEBRATION_MESSAGES[Math.floor(Math.random() * CELEBRATION_MESSAGES.length)];
+                  const msg = randomCelebrationMessage();
                   setCelebrationMessage(msg);
                 }
                 catch (err) { console.error("Document generation failed:", err); }
@@ -557,6 +548,22 @@ function SharedExperiencePage() {
               }}
             >
               Generate Document
+            </button>
+            <button
+              className="btn btn--primary btn--generate"
+              disabled={campers.length === 0 || sharedExperiences.length === 0 || generatingCompact}
+              onClick={async () => {
+                setGeneratingCompact(true);
+                try {
+                  await generateCompactedDocument(sharedExperiences);
+                  const msg = randomCelebrationMessage();
+                  setCelebrationMessage(msg);
+                }
+                catch (err) { console.error("Compact document generation failed:", err); }
+                finally { setGeneratingCompact(false); }
+              }}
+            >
+              Export Compacted Document
             </button>
             {(campers.length === 0 || sharedExperiences.length === 0) && (
               <ul className="generate-help">

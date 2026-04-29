@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import titleGif from "../assets/page-titles/scheduling.gif";
 import { load } from "@tauri-apps/plugin-store";
 import NavBar from "../components/NavBar";
 import { EditScheduleDateModal } from "../components/EditScheduleDateModal";
@@ -22,6 +23,7 @@ export interface WeekRecord {
   endDate: string;
   numCampers: number;
   excludedStaffIds: string[];
+  staffUnits?: Record<string, string>;
 }
 
 export interface ScheduleRecord {
@@ -68,6 +70,13 @@ function SchedulingPage() {
 
   function updateScheduleDate(scheduleId: string, date: string) {
     const updated = schedules.map((s) => s.id === scheduleId ? { ...s, date } : s);
+    setSchedules(updated);
+    saveSchedules(updated);
+    setEditScheduleId(null);
+  }
+
+  function deleteSchedule(scheduleId: string) {
+    const updated = schedules.filter((s) => s.id !== scheduleId);
     setSchedules(updated);
     saveSchedules(updated);
     setEditScheduleId(null);
@@ -163,7 +172,7 @@ function SchedulingPage() {
       <NavBar />
       <div className="page">
         <header className="site-header">
-          <h1 className="site-title">📅 Scheduling 📅</h1>
+          <h1 className="site-title"><img src={titleGif} className="title-gif" alt="" />Scheduling<img src={titleGif} className="title-gif" alt="" /></h1>
           <hr className="divider" />
         </header>
         <main>
@@ -307,6 +316,7 @@ function SchedulingPage() {
           <EditScheduleDateModal
             currentDate={s.date}
             onSave={(date) => updateScheduleDate(editScheduleId, date)}
+            onDelete={() => deleteSchedule(editScheduleId)}
             onClose={() => setEditScheduleId(null)}
           />
         );
